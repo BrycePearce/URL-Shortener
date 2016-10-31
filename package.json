@@ -1,0 +1,30 @@
+{
+  "name": "urlshorten",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shortens URLs from user input",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrycePearce/URL-Shortener.git"
+  },
+  "keywords": [
+    "url",
+    "shortener"
+  ],
+  "author": "Bryce Pearce",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrycePearce/URL-Shortener/issues"
+  },
+  "homepage": "https://github.com/BrycePearce/URL-Shortener#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "pg": "^6.1.0"
+  }
+}
