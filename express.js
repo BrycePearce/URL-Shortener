@@ -45,6 +45,41 @@ app.use(require('body-parser').urlencoded({
 //use this to import images/etc
 app.use(express.static(__dirname + '/public'));
 
+//add this route so looking for the favicon doesn't crash everything
+app.get('/favicon.ico', function (req, res) {
+  return res.sendStatus(200);
+});
+
+//define roots, request object, response object
+app.get('/', function (req, res) {
+  //render html
+  return res.render('home');
+});
+
+// /:id will match anything after the / in the url, and set it as the req.params.id value
+router.get('/:id', (req, res) => {
+  console.log("hi you're about to match url id to database id");
+  //connect to our database
+  pool.connect((err, client, done) => {
+    if (err) {
+      done();
+      return res.status(500).json({ success: false, message: err });
+    }
+    client.query("SELECT * FROM items WHERE id=$1", [req.params.id], (err, result) => {
+      done();
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ message: 'bad request' });
+      } else {
+        if (result.rows.length == 0) {
+          return res.status(404).render('home', { message: '404 not found' });
+        }
+        return res.redirect(result.rows[0].original_url);
+      }
+    });
+  });
+});
+
 
 //Handle Routes
 
