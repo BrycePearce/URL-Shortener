@@ -42,7 +42,7 @@ app.use(require('body-parser').urlencoded({
   extended: true
 }));
 
-//use this to import images/etc
+//Sets root folder as public, used to import Static assets, such as scripts/images/etc
 app.use(express.static(__dirname + '/public'));
 
 //add this route so looking for the favicon doesn't crash everything
@@ -65,6 +65,7 @@ router.get('/:id', (req, res) => {
       done();
       return res.status(500).json({ success: false, message: err });
     }
+    //select the URL that matches the ID
     client.query("SELECT * FROM items WHERE id=$1", [req.params.id], (err, result) => {
       done();
       if (err) {
@@ -74,9 +75,11 @@ router.get('/:id', (req, res) => {
         if (result.rows.length == 0) {
           return res.status(404).render('home', { message: '404 not found' });
         }
+        //redirect user to new url
         return res.redirect(result.rows[0].original_url);
       }
     });
+    console.log("Request not found.");
   });
 });
 
@@ -87,7 +90,7 @@ router.get('/:id', (req, res) => {
 router.post('/createShorter', (req, res, next) => {
   const results = [];
   console.log("welcome to post route, your request: " + req.body.url);
-  //grab data from http-request
+  //grab data from url form http-request
   const data = { text: req.body.url };
 
   //give error if there is no text in the request
