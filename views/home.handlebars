@@ -1,27 +1,25 @@
 <!DOCTYPE html>
-<html lang="en-US"><head>
+<html lang="en-US">
 
-<meta charset="UTF-8" />
+<head>
+
+	<meta charset="UTF-8" />
+	<title></title>
+</head>
 <h1>Welcome to my URL Shortener page</h1>
 
+
 <body>
-<form action="/createShorter" method="POST">
-
-	<input type="text" name="url">
-
-	<div class="form-group">
-		<div class="col-sm-4">
-			<button id="submit" type="button">Submit</button>
-		</div>
-	</div>
-	<br>
-   <p>Result:
-      <span class="number-output" id="url-output"></span>
-   </p>
-	
-
-</form>
+	<!-- Create the form, include button so it is linked to the form. -->
+	<form name="urlForm">
+		<input type="text" name="url">
+		<button id="submit" type="button">Submit</button>
+		<p>Result:
+			<!-- Output area. -->
+			<span id="url-output"></span>
+	</form>
+	</p>
+	<!-- Import jquery & a JavaScript script to add interactivity to the page. -->
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="js/script.js"></script>
 </body>
-<!-- Import jquery & a JavaScript script to add interactivity to the page. -->
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="js/script.js"></script>

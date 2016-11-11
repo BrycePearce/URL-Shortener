@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router(); //handles the routing of incoming requests
 const pg = require('pg'); //Non-blocking PostgreSQL client for node.js.
 const app = express();
-
+const bodyParser = require('body-parser');
 
 /*DB Setup*/
 // create a config to configure both pooling behavior
@@ -36,6 +36,10 @@ const handlebars = require('express-handlebars').create({ defaultLayout: 'main' 
 app.engine('handlebars', handlebars.engine);
 //set html as defined in "views" directory to be transported into "main.handlebars" layout
 app.set('view engine', 'handlebars');
+
+//need these?
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 //When the user submits the URL, it hits this app.use and deciphers it here. Make sure routes are below this.
 app.use(require('body-parser').urlencoded({
@@ -91,7 +95,8 @@ router.post('/createShorter', (req, res, next) => {
   const results = [];
   console.log("welcome to post route, your request: " + req.body.url);
   //grab data from url form http-request
-  const data = { text: req.body.url };
+  // const data = { text: req.body.url };
+  const data = { text: req.body };
 
   //give error if there is no text in the request
   if (!data.text) {
