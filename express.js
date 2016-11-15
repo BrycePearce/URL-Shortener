@@ -37,10 +37,6 @@ app.engine('handlebars', handlebars.engine);
 //set html as defined in "views" directory to be transported into "main.handlebars" layout
 app.set('view engine', 'handlebars');
 
-//need these?
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-
 //When the user submits the URL, it hits this app.use and deciphers it here. Make sure routes are below this.
 app.use(require('body-parser').urlencoded({
   extended: true
@@ -79,7 +75,7 @@ router.get('/:id', (req, res) => {
         if (result.rows.length == 0) {
           return res.status(404).render('home', { message: '404 not found' });
         }
-        //redirect user to new url
+        //redirect user to original website from the shortened url
         return res.redirect(result.rows[0].original_url);
       }
     });
@@ -93,10 +89,9 @@ router.get('/:id', (req, res) => {
 //Create 
 router.post('/createShorter', (req, res, next) => {
   const results = [];
-  console.log("welcome to post route, your request: " + req.body.url);
+  console.log("welcome to post route, your request: " + req.body.name);
   //grab data from url form http-request
-  // const data = { text: req.body.url };
-  const data = { text: req.body };
+  const data = { text: req.body.name };
 
   //give error if there is no text in the request
   if (!data.text) {
@@ -109,16 +104,16 @@ router.post('/createShorter', (req, res, next) => {
       return res.status(500).json({ success: false, message: err });
     }
 
-    //SQL Query -> Insert Data
-    client.query('INSERT INTO items(original_url) values($1)', [data.text], (err, result) => {
+    //SQL Query -> Insert Data (data.text is long url, result is short url. Returning * gives everything back, like id.)
+    client.query('INSERT INTO items(original_url) values($1) returning *', [data.text], (err, result) => {
       done();
       console.log("you inserted some data!");
       if (err) {
         //Handle insertion error
         return res.status(500).render('home', { success: false });
       } else {
-        //'results' table successfully recieved the query
-        return res.status(200).render('home', { success: true });
+        //'results' table successfully recieved the query, so send the json short url ID data to script.js
+        return res.status(200).json({ shortID: result.rows[0].id });
       }
     });
   });
