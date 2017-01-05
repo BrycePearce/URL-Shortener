@@ -1,0 +1,67 @@
+#outerContainer {
+    margin: auto;
+}
+
+body {
+  background-color: #F7F7F7;
+}
+
+h1 {
+  color: black;
+}
+
+.container {
+  position: absolute;
+  top: calc(50%  / 2);
+  left: calc(50%  /2 );
+  width: 50%;
+  height: 200px;
+  background-color: white;
+  box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.15);
+  padding: 30px 40px;
+  text-align: center;
+}
+
+.container-footer {
+  position: relative;
+}
+
+.container-footer span {
+   position: absolute;
+   bottom: 0;
+   right: 0;
+}
+
+.smallInputBox {
+    height: 32px;
+    display: inline-block;
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
+    padding: 5x;
+    text-align: center;
+}
+
+.btn2:before {
+    content: "Close";
+}
+
+.boxContainer {
+    width: 300px;
+    height: 100px;
+    margin: auto;
+}
+
+.modal-footer {
+   pointer-events: none;
+}
+
+#myModal {
+  position: fixed;
+  top: 22.8%;
+  right: 50;
+  outline: none;
+}
+
+/*Pop up header title
+h2 {
+
+}*/

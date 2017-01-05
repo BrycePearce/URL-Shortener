@@ -1,7 +1,7 @@
 // All the code below will be run once the page content finishes loading.
+
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
-
     // process the form when "submit" button is clicked
     $('form[name=urlForm]').submit(function (event) {
         // get the data in the form
@@ -25,10 +25,29 @@ document.addEventListener('DOMContentLoaded', function () {
             .done(function (data) {
                 // log data to the console so we can see
                 console.log("done: ", data.shortID);
-               $('#url-output').text("localhost:3000/" + data.shortID);
+                $('#url-output').text("http://url.brycepearce.me/" + data.shortID);
                 // here we will handle errors and validation messages
             });
         // stop the form from submitting the normal way and refreshing the page
         event.preventDefault();
     });
+
+    //wire up button
+    $(document).ready(function () {
+        $("#submit").click(function () {
+            $("#myModal").modal();
+        });
+    });
+
+    //placeholder text fades in/out when clicked
+    $('.smallInputBox').data('holder', $('.smallInputBox').attr('placeholder'));
+
+    $('.smallInputBox').focusin(function () {
+        $(this).attr('placeholder', '');
+    });
+
+    $('.smallInputBox').focusout(function () {
+        $(this).attr('placeholder', $(this).data('holder'));
+    });
+
 }, false);

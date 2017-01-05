@@ -27,7 +27,7 @@ var config = {
 var pool = new pg.Pool(config);
 /* End DB Setup */
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 
 //blocks header from containing server info
 app.disable('x-powered-by');
@@ -37,13 +37,14 @@ app.engine('handlebars', handlebars.engine);
 //set html as defined in "views" directory to be transported into "main.handlebars" layout
 app.set('view engine', 'handlebars');
 
+
 //When the user submits the URL, it hits this app.use and deciphers it here. Make sure routes are below this.
 app.use(require('body-parser').urlencoded({
   extended: true
 }));
 
-//Sets root folder as public, used to import Static assets, such as scripts/images/etc
-app.use(express.static(__dirname + '/public'));
+//Sets root folder as public, used to import Static assets, such as scripts/images/etc. "/static" prevents clashes with other routes.
+app.use("/static", express.static(__dirname + '/public'));
 
 //add this route so looking for the favicon doesn't crash everything
 app.get('/favicon.ico', function (req, res) {
@@ -124,5 +125,5 @@ app.use('/', router);
 
 //always last so you can make sure everything else is loaded before accepting connections.
 app.listen(app.get('port'), function () {
-  console.log("Express started on http://localhost:" + app.get('port'));
+  console.log("Express started on http://url.brycepearce.me:" + app.get('port'));
 });
