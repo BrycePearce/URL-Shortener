@@ -5,6 +5,7 @@ const router = express.Router(); //handles the routing of incoming requests
 const pg = require('pg'); //Non-blocking PostgreSQL client for node.js.
 const app = express();
 const bodyParser = require('body-parser');
+require('dotenv').config()
 
 /*DB Setup*/
 // create a config to configure both pooling behavior
@@ -12,13 +13,13 @@ const bodyParser = require('body-parser');
 // note: all config is optional and the environment variables
 // will be read if the config is not present
 var config = {
-  user: 'dzqbfcki', //env var: PGUSER
-  database: 'dzqbfcki', //env var: PGDATABASE
-  password: 'XiSZ2IQTlRh0o01OBdJ2LGs9XKB0oeAR', //env var: PGPASSWORD
-  host: 'elmer-02.db.elephantsql.com', // Server hosting the postgres database
-  port: 5432, //env var: PGPORT
-  max: 5, // max number of clients in the pool
-  idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+  user: process.env.DB_USER, //env var: PGUSER
+  database: process.env.DB_DATABASE, //env var: PGDATABASE
+  password: process.env.DB_PASSWORD, //env var: PGPASSWORD
+  host: process.env.DB_HOST, // Server hosting the postgres database
+  port: process.env.DB_PORT, //env var: PGPORT
+  max: process.env.DB_MAX, // max number of clients in the pool
+  idleTimeoutMillis: process.env.DB_TIMEOUT, // how long a client is allowed to remain idle before being closed
 };
 
 //this initializes a connection pool
@@ -108,12 +109,13 @@ router.post('/createShorter', (req, res, next) => {
     //SQL Query -> Insert Data (data.text is long url, result is short url. Returning * gives everything back, like id.)
     client.query('INSERT INTO items(original_url) values($1) returning *', [data.text], (err, result) => {
       done();
-      console.log("you inserted some data!");
       if (err) {
         //Handle insertion error
+        console.log("A problem occured.\n");
         return res.status(500).render('home', { success: false });
       } else {
         //'results' table successfully recieved the query, so send the json short url ID data to script.js
+              console.log("you inserted some data!");
         return res.status(200).json({ shortID: result.rows[0].id });
       }
     });

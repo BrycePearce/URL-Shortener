@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         //this is the request
         console.log("your request data -> ", formData.name);
-        // process the form
+        //process the form
         $.ajax({
             type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
             url: '/createShorter', // the url where we want to POST
